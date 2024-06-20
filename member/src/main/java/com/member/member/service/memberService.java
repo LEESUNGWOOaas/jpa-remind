@@ -90,4 +90,13 @@ public class memberService {
     public void deleteById(Long id) {
         memberRepository.deleteById(id);
     }
+
+    public String emailCheck(String email) {
+        Optional<memberEntity> byEmail = memberRepository.findByEmail(email);
+        if(byEmail.isPresent()){
+            return null;
+        }else{
+            return "ok";
+        }
+    }
 }

@@ -80,5 +80,14 @@ public class memberController {
         session.invalidate();
         return "index";
     }
-
+    @PostMapping("/member/email-check")
+    public @ResponseBody String emailCeheck(@RequestParam("email") String email){
+        System.out.println("email : "+email);
+        String checkResult = memberService.emailCheck(email);
+        if(checkResult != null){
+            return "ok";
+        }else {
+            return "에러발생";
+        }
+    }
 }
