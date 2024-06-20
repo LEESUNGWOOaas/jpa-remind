@@ -50,7 +50,7 @@ public class memberService {
     public List<memberDTO> findAll() {
         List<memberEntity> memberEntityList = memberRepository.findAll();
         List<memberDTO> memberList = new ArrayList<>();
-        for(memberEntity memberEntity:memberEntityList){
+        for(memberEntity memberEntity: memberEntityList){
             memberList.add(memberDTO.toMemberDTO(memberEntity));
          //   memberDTO DTO = memberDTO.toMemberDTO(memberEntity);
          //   memberList.add(DTO);
@@ -60,11 +60,34 @@ public class memberService {
 
     public memberDTO findById(Long id) {
         Optional<memberEntity> optionalMemberEntity = memberRepository.findById(id);
-        if(optionalMemberEntity.isPresent()){
-            return memberDTO.toMemberDTO(optionalMemberEntity.get()); // get으로 optional객체를 깐다는 개념
-        }else{
+        if (optionalMemberEntity.isPresent()) {
+//            MemberEntity memberEntity = optionalMemberEntity.get();
+//            MemberDTO memberDTO = MemberDTO.toMemberDTO(memberEntity);
+//            return memberDTO;
+            return memberDTO.toMemberDTO(optionalMemberEntity.get());
+        } else {
             return null;
         }
 
+    }
+
+    public memberDTO updateForm(String myEmail) {
+        Optional<memberEntity> optionalMemberEntity = memberRepository.findByEmail(myEmail);
+        if(optionalMemberEntity.isPresent()){
+          //  memberEntity memberEntity = optionalMemberEntity.get();
+          //  memberDTO DTO = memberDTO.toMemberDTO(memberEntity);
+          //  return DTO; 을 한줄로 표기
+            return  memberDTO.toMemberDTO(optionalMemberEntity.get());
+        }else{
+            return null;
+        }
+    }
+
+    public void update(memberDTO memberDTO) {
+         memberRepository.save(memberEntity.toUpdateMemberEntity(memberDTO));//save 는 id가 없으면 insert 로 하고 id가 있는 Entity객체가 오면 update 쿼리 실행
+    }
+
+    public void deleteById(Long id) {
+        memberRepository.deleteById(id);
     }
 }
